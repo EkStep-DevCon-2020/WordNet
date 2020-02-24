@@ -208,7 +208,7 @@ app.controller('myCtrl', function($scope, $rootScope, $http) {
                     msg.voice = voices[48];
                     msg.rate = 1
                     msg.pitch = 1
-                    msg.text = "I apologize, I couldn't  able to find anything, I request you to please click on the replay button"
+                    msg.text = "I apologize, I couldn't  able to find anything, Only i have translated to hindi language I request you to please click on the replay button"
                     speechSynthesis.speak(msg);
                     $scope.hide_retry_button = false
                     $scope.hide_second_teacher = false
@@ -264,9 +264,10 @@ app.controller('myCtrl', function($scope, $rootScope, $http) {
         $scope.hide_starting_page = true
         $scope.hide_talking_teacher = false
         $scope.hide_board_image = false
+        var name = $scope.getParameterByName('userName') || ""
+        console.log("name is" + name)
         setTimeout(function() {
-            //$scope.textToSpeech("hello, how are you", true)
-            $scope.textToSpeech("Hello!!! Welcome to devcon event!!  Let's learn about the parts of speech, Now I would request you to read something then i will find words, it's related images, examples and it's meaning for you!")
+            $scope.textToSpeech(`Hello!!! ${name} Welcome to devcon event!!  Let's learn about the vocabulary, Now I would request you to read something`)
         }, 100)
     }
 
@@ -384,7 +385,7 @@ app.controller('myCtrl', function($scope, $rootScope, $http) {
         if ($scope.word_list.length > 0) {
             message = `Hey My dear student! I found these are the results for you!, The words which i got are ${$scope.nounsAre.toString()}, `;
         } else {
-            message = "I apologize, I couldn't  able to find anything, I request you to please click on the replay button"
+            message = "I apologize, I couldn't  able to find anything, Only i have translated to hindi language, I request you to please click on the replay button"
             $scope.hide_cryingImage = false
         }
 
@@ -421,6 +422,16 @@ app.controller('myCtrl', function($scope, $rootScope, $http) {
 
 
 
+    }
+
+    $scope.getParameterByName = function(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
     var voices = window.speechSynthesis.getVoices();
 });
